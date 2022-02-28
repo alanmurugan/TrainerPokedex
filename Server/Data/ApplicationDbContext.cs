@@ -21,5 +21,6 @@ namespace TrainerPokedex.Server.Data
         public DbSet<Move> Moves { get; set; }
         public DbSet<TypeX> Types { get; set; }
         public DbSet<Region> Regions { get; set; }
+        
     }
 }

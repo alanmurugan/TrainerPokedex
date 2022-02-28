@@ -8,6 +8,7 @@ namespace TrainerPokedex.Server.Models
         //Required properties
         [Key] public int Id { get; set; }
         [Required] public string Name { get; set; }
+        [Required] public int GenIntroduced { get; set; }
         
         //Many to many relationship (many pokemon in many regions)
         public ICollection<Pokemon> LocalPokemon { get; set; }
