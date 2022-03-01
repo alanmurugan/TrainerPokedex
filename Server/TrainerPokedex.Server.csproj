@@ -33,4 +33,10 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.14" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Services\MoveServices" />
+    <Folder Include="Services\PokemonServices" />
+    <Folder Include="Services\TypeServices" />
+  </ItemGroup>
+
 </Project>
