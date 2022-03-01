@@ -15,7 +15,7 @@ namespace TrainerPokedex.Server.Services.RegionServices
         //Update Region
         Task<bool> UpdateRegionAsync(RegionEdit model);
         //Delete Region
-        Task<bool> DeleteRegionAsync(int noteId);
+        Task<bool> DeleteRegionAsync(int regionId);
         void SetUserId(string userId);
     }
 }

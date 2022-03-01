@@ -6,6 +6,6 @@ namespace TrainerPokedex.Shared.Models.Region
     {
         [Required] public int Id { get; set; }
         [Required] public string Name { get; set; }
-        [Required] public int GenIntroduced { get; set; }
+        [Required] public int? GenIntroduced { get; set; }
     }
 }

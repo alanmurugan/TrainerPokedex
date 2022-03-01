@@ -4,10 +4,11 @@ namespace TrainerPokedex.Shared.Models.Pokemon
 {
     public class PokemonEdit
     {
-        [Required] public int DexNumber { get; set; }
+        [Required] public int Id { get; set; }
+        [Required] public int? DexNumber { get; set; }
         [Required] public string Name { get; set; }
         [Required] public string ImgUrl { get; set; }
-        [Required] public int Generation { get; set; }
+        [Required] public int? Generation { get; set; }
         [Required] public string DexEntry { get; set; }
     }
 }

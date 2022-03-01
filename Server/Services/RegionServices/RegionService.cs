@@ -25,8 +25,7 @@ namespace TrainerPokedex.Server.Services.RegionServices
                 GenIntroduced = model.GenIntroduced
             };
             _context.Regions.Add(regionEntity);
-            var numberOfChanges = await _context.SaveChangesAsync();
-            return numberOfChanges == 1;
+            return await _context.SaveChangesAsync() == 1;
         }
 
         public async Task<IEnumerable<RegionListItem>> GetAllRegionsAsync()
@@ -34,6 +33,7 @@ namespace TrainerPokedex.Server.Services.RegionServices
             var regionQuery = _context.Regions
                 .Select(r => new RegionListItem
                 {
+                    Id = r.Id,
                     Name = r.Name
                 });
             return await regionQuery.ToListAsync();
@@ -62,12 +62,19 @@ namespace TrainerPokedex.Server.Services.RegionServices
 
         public async Task<bool> UpdateRegionAsync(RegionEdit model)
         {
-            var entity = 
+            if (model == null) return false;
+            var entity = await _context.Regions.FindAsync(model.Id);
+
+            entity.Name = (model.Name ?? entity.Name);
+            entity.GenIntroduced = (model.GenIntroduced ?? entity.GenIntroduced);
+            return await _context.SaveChangesAsync() == 1;
         }
 
-        public Task<bool> DeleteRegionAsync(int noteId)
+        public async Task<bool> DeleteRegionAsync(int regionId)
         {
-            throw new System.NotImplementedException();
+            var entity = await _context.Regions.FindAsync(regionId);
+            _context.Regions.Remove(entity);
+            return await _context.SaveChangesAsync() == 1;
         }
 
     }
