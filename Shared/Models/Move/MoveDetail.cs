@@ -11,7 +11,7 @@ namespace TrainerPokedex.Shared.Models.Move
         public int BaseStrength { get; set; }
         public string Description { get; set; }
         public int? TypeId { get; set; }
-        public TypeListItem Type { get; set; }
+        public string TypeName { get; set; }
         public ICollection<PokemonListItem> TeachablePokemon { get; set; }
     }
 }
