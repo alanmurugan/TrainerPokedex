@@ -1,0 +1,40 @@
+@page "/type"
+@using TrainerPokedex.Shared.Models.Type
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
+@inject HttpClient _http
+<h3>Types</h3>
+<a href="/type/create">Create a new type</a>
+@if (_types == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var type in _types)
+        {
+            <tr>
+                <td>@type.Id</td>
+                <td>@type.Name</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<TypeListItem> _types;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _types = await _http.GetFromJsonAsync<List<TypeListItem>>("api/type");
+    }
+}

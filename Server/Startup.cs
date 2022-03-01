@@ -10,6 +10,10 @@ using Microsoft.Extensions.Hosting;
 using System.Linq;
 using TrainerPokedex.Server.Data;
 using TrainerPokedex.Server.Models;
+using TrainerPokedex.Server.Services.MoveServices;
+using TrainerPokedex.Server.Services.PokemonServices;
+using TrainerPokedex.Server.Services.RegionServices;
+using TrainerPokedex.Server.Services.TypeServices;
 
 namespace TrainerPokedex.Server
 {
@@ -43,6 +47,11 @@ namespace TrainerPokedex.Server
 
             services.AddControllersWithViews();
             services.AddRazorPages();
+
+            services.AddScoped<IPokemonService, PokemonService>();
+            services.AddScoped<ITypeService, TypeService>();
+            services.AddScoped<IMoveService, MoveService>();
+            services.AddScoped<IRegionService, RegionService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

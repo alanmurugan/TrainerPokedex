@@ -1,0 +1,59 @@
+@page "/pokemon/create"
+@using TrainerPokedex.Shared.Models.Pokemon
+@using Microsoft.AspNetCore.Authorization
+@using System.Collections
+@using TrainerPokedex.Shared.Models.Type
+@inject HttpClient _http
+@attribute [Authorize]
+@inject NavigationManager _navigation
+<h3>Create a Pokemon</h3>
+@if (_errorMessage != null)
+{
+    <h5 class="text-danger">@_errorMessage</h5>
+}
+<div class="container">
+    <EditForm Model="@_model" OnValidSubmit="@HandleSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <div class="form-group">
+            <label>Name</label>
+            <InputText class="form-control" @bind-Value="_model.Name" />
+        </div>
+        <div class="form-group">
+            <label>Pokedex #</label>
+            <InputNumber class="form-control" @bind-Value="_model.DexNumber" />
+        </div>
+        <div class="form-group">
+            <label>Generation</label>
+            <InputNumber class="form-control" @bind-Value="_model.Generation" />
+        </div>
+        <div class="form-group">
+            <label>Image Url</label>
+            <InputText class="form-control" @bind-Value="_model.ImgUrl" />
+        </div>
+        <div class="form-group">
+            <label>Pokedex Entry</label>
+            <InputTextArea class="form-control" @bind-Value="_model.DexEntry" />
+        </div>
+        @*2 Type selection dropdowns*@
+        @*Move selection*@
+        <button type="submit" class="btn btn-primary btn-block mt-5">Submit</button>
+    </EditForm>
+</div>
+@code {
+    private PokemonCreate _model = new();
+    private IEnumerable<TypeListItem> _types;
+    private string _errorMessage;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _types = await _http.GetFromJsonAsync<IEnumerable<TypeListItem>>("api/type");
+    }
+
+    private async void HandleSubmit()
+    {
+        var createRes = await _http.PostAsJsonAsync<PokemonCreate>("/api/pokemon", _model);
+        if (createRes.IsSuccessStatusCode) _navigation.NavigateTo("/pokemon");
+        else _errorMessage = "Could not create Pokemon. Try again later.";
+    }
+}

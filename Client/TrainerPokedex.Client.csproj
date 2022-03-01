@@ -17,4 +17,9 @@
     <ProjectReference Include="..\Shared\TrainerPokedex.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Pages\Move" />
+    <Folder Include="Pages\Region" />
+  </ItemGroup>
+
 </Project>
