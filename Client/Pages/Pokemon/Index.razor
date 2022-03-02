@@ -15,18 +15,18 @@ else
     <table class="table">
         <thead>
             <tr>
-                <th>Database Id#</th>
                 <th>Pokedex Entry#</th>
                 <th>Name</th>
+                <th>&nbsp;</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var pokemon in _pokemon)
             {
                 <tr>
-                    <td>@pokemon.Id</td>
                     <td>@pokemon.DexNumber</td>
                     <td>@pokemon.Name</td>
+                    <td>@*Links go here*@</td>
                 </tr>
             }
         </tbody>

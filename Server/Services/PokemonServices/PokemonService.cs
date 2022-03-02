@@ -99,5 +99,62 @@ namespace TrainerPokedex.Server.Services.PokemonServices
             _context.Pokemon.Remove(entity);
             return await _context.SaveChangesAsync() == 1;
         }
+
+        public async Task<bool> AddPokemonToRegionAsync(int pokemonId, PokemonRegion request)
+        {
+            var pokemonEntity = await _context
+                .Pokemon
+                .FindAsync(pokemonId);
+            var regionEntity = await _context
+                .Regions
+                .Include(p => p.LocalPokemon)
+                .FirstOrDefaultAsync(r => r.Id == request.RegionId);
+
+            if (request.PokemonId == pokemonId)
+            {
+                regionEntity.LocalPokemon.Add(pokemonEntity);
+                return await _context.SaveChangesAsync() == 1;
+            }
+
+            return false;
+        }
+
+        public async Task<bool> AddTypeToPokemonAsync(int pokemonId, PokemonType request)
+        {
+            var pokemonEntity = await _context
+                .Pokemon
+                .FindAsync(pokemonId);
+            var typeEntity = await _context
+                .Types
+                .Include(p => p.Pokemon)
+                .FirstOrDefaultAsync(t => t.Id == request.TypeId);
+
+            if (request.PokemonId == pokemonId)
+            {
+                typeEntity.Pokemon.Add(pokemonEntity);
+                return await _context.SaveChangesAsync() == 1;
+            }
+
+            return false;
+        }
+
+        public async Task<bool> AddMoveToPokemonAsync(int pokemonId, PokemonMove request)
+        {
+            var pokemonEntity = await _context
+                .Pokemon
+                .FindAsync(pokemonId);
+            var moveEntity = await _context
+                .Moves
+                .Include(p => p.TeachablePokemon)
+                .FirstOrDefaultAsync(m => m.Id == request.MoveId);
+
+            if (request.PokemonId == pokemonId)
+            {
+                moveEntity.TeachablePokemon.Add(pokemonEntity);
+                return await _context.SaveChangesAsync() == 1;
+            }
+
+            return false;
+        }
     }
 }

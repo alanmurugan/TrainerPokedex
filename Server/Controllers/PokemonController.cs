@@ -70,6 +70,39 @@ namespace TrainerPokedex.Server.Controllers
             if (wasSuccessful) return Ok();
             return BadRequest();
         }
+
+        [HttpPut("RegionAdd/{pokemonId:int}")]
+        public async Task<IActionResult> AddPokemonToRegion(int pokemonId, PokemonRegion request)
+        {
+            if (!SetUserIdInService()) return Unauthorized();
+            if (!ModelState.IsValid || request is null) return BadRequest();
+
+            return await _pokemonService.AddPokemonToRegionAsync(pokemonId, request)
+                ? Ok()
+                : BadRequest();
+        }
+
+        [HttpPut("TypeAdd/{pokemonId:int}")]
+        public async Task<IActionResult> AddTypeToPokemon(int pokemonId, PokemonType request)
+        {
+            if (!SetUserIdInService()) return Unauthorized();
+            if (!ModelState.IsValid || request is null) return BadRequest();
+
+            return await _pokemonService.AddTypeToPokemonAsync(pokemonId, request)
+                ? Ok()
+                : BadRequest();
+        }
+        
+        [HttpPut("MoveAdd/{pokemonId:int}")]
+        public async Task<IActionResult> AddMoveToPokemon(int pokemonId, PokemonMove request)
+        {
+            if (!SetUserIdInService()) return Unauthorized();
+            if (!ModelState.IsValid || request is null) return BadRequest();
+
+            return await _pokemonService.AddMoveToPokemonAsync(pokemonId, request)
+                ? Ok()
+                : BadRequest();
+        }
         
         //DELETE
         [HttpDelete("delete/{id:int}")]

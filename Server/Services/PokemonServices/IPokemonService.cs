@@ -12,6 +12,9 @@ namespace TrainerPokedex.Server.Services.PokemonServices
         Task<PokemonDetail> GetPokemonByIdAsync(int pokemonId);
         Task<bool> UpdatePokemonAsync(PokemonEdit model);
         Task<bool> DeletePokemonAsync(int pokemonId);
+        Task<bool> AddPokemonToRegionAsync(int pokemonId, PokemonRegion request);
+        Task<bool> AddTypeToPokemonAsync(int pokemonId, PokemonType request);
+        Task<bool> AddMoveToPokemonAsync(int pokemonId, PokemonMove request);
         void SetUserId(string userId);
     }
 }
