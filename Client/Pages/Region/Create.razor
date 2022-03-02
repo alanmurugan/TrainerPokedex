@@ -1,0 +1,19 @@
+@page "/region/create"
+@using TrainerPokedex.Shared.Models.Region
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
+@inject HttpClient _http
+@inject NavigationManager _navigation
+<h3>Create a region</h3>
+
+@code {
+    private RegionCreate _model = new();
+    private string errorMessage;
+
+    private async void HandleSubmit()
+    {
+        var createRes = await _http.PostAsJsonAsync<RegionCreate>("/api/region", _model);
+        if (createRes.IsSuccessStatusCode) _navigation.NavigateTo("/region");
+        else errorMessage = "Could not create region. Try again later.";
+    }
+}

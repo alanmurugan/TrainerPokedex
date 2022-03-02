@@ -1,0 +1,38 @@
+@page "/region"
+@using TrainerPokedex.Shared.Models.Region
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
+@inject HttpClient _http
+<h3>Regions</h3>
+@if (_regions == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var region in _regions)
+        {
+            <tr>
+                <td>@region.Id</td>
+                <td>@region.Name</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+@code {
+    private List<RegionListItem> _regions;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _regions = await _http.GetFromJsonAsync<List<RegionListItem>>("api/region");
+    }
+}

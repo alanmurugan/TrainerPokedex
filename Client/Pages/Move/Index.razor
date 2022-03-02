@@ -1,0 +1,42 @@
+@page "/move"
+@using TrainerPokedex.Shared.Models.Move
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
+@inject HttpClient _http
+<h3>Moves</h3>
+<a href="/move/create">Create a new move</a>
+@if (_moves == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Type</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var move in _moves)
+        {
+            <tr>
+                <td>@move.Id</td>
+                <td>@move.Name</td>
+                <td>@move.Type</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<MoveListItem> _moves;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _moves = await _http.GetFromJsonAsync<List<MoveListItem>>("api/move");
+    }
+}
