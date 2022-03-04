@@ -1,0 +1,47 @@
+@page "/region/edit/{RegionId:int}"
+@using TrainerPokedex.Shared.Models.Region
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
+@inject HttpClient _http
+@inject NavigationManager _navigation
+
+
+<h3>Edit @_model.Name Region information</h3>
+
+@if (errorMessage != null)
+{
+    <h5 class="text-danger">@errorMessage</h5>
+}
+<div class="container">
+    <EditForm Model="@_model" OnValidSubmit="@HandleSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <div class="form-group">
+            <label>Name</label>
+            <InputText class="form-control" @bind-Value="_model.Name" />
+        </div>
+        <div class="form-group">
+            <label>Generation Introduced</label>
+            <InputNumber class="form-control" @bind-Value="_model.GenIntroduced" />
+        </div>
+        <button type="submit" class="btn btn-primary btn-block mt-5">Submit</button>
+    </EditForm>
+</div>
+
+@code {
+    [Parameter] public int RegionId { get; set; }
+    private RegionEdit _model { get; set; } = new RegionEdit();
+    private string errorMessage;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _model = await _http.GetFromJsonAsync<RegionEdit>($"/api/region/{RegionId}");
+    }
+
+    private async void HandleSubmit()
+    {
+        var createRes = await _http.PutAsJsonAsync<RegionEdit>($"/api/region/{RegionId}", _model);
+        if (createRes.IsSuccessStatusCode) _navigation.NavigateTo($"region/{RegionId}");
+        else errorMessage = "Could not edit region. Try again later.";
+    }
+}

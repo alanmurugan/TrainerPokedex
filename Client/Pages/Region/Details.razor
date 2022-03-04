@@ -1,0 +1,52 @@
+@page "/region/{RegionId:int}"
+@using TrainerPokedex.Shared.Models.Region
+@using TrainerPokedex.Shared.Models.Pokemon
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
+@inject HttpClient _http
+<h3>@Region.Name Region Details</h3>
+@if (Region != null)
+{
+    <div class="container">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between">
+                <span>@Region.Name</span>
+                <span class="text-muted"><strong>Introduced in Generation @Region.GenIntroduced</strong></span>
+            </div>
+            <div class="card-body">
+                <h4 class="card-title">Local Pokemon</h4>
+                <p class="card-text">
+                    @foreach (var pokemon in Region.LocalPokemon)
+                    {
+                        <a href=@($"pokemon/{pokemon.Id}")>@pokemon.Name</a> <br/>
+                    }
+                </p>
+            </div>
+        </div>
+        <div class="d-flex justify-content-center mt-3">
+            <div class="text-center justify-content-between w-25">
+                <a href=@($"/region/edit/{RegionId}") class="btn btn-outline-primary">Edit</a>
+                <a href=@($"/region/delete/{RegionId}") class="btn btn-outline-danger">Delete</a>
+                <hr />
+                <a href="/region">Back to Region Index</a>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <p><em>Loading...</em></p>
+}
+
+@code {
+
+    [Parameter]
+    public int RegionId { get; set; } = new();
+    private RegionDetail Region { get; set; } = new RegionDetail();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Region = await _http.GetFromJsonAsync<RegionDetail>($"/api/region/{RegionId}");
+    }
+
+}

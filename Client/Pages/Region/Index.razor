@@ -16,6 +16,7 @@ else
         <tr>
             <th>Id</th>
             <th>Name</th>
+            <th>&nbsp;</th>
         </tr>
         </thead>
         <tbody>
@@ -24,6 +25,11 @@ else
             <tr>
                 <td>@region.Id</td>
                 <td>@region.Name</td>
+                <td>
+                    <a href=@($"region/{region.Id}")>Details</a> | 
+                    <a href=@($"region/edit/{region.Id}")>Edit</a> |
+                    <a href=@($"region/delete/{region.Id}")>Delete</a>
+                </td>
             </tr>
         }
         </tbody>
