@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Syncfusion.Blazor;
 
 namespace TrainerPokedex.Client
 {
@@ -25,6 +26,8 @@ namespace TrainerPokedex.Client
             builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("TrainerPokedex.ServerAPI"));
 
             builder.Services.AddApiAuthorization();
+
+            builder.Services.AddSyncfusionBlazor(options => { options.IgnoreScriptIsolation = true; });
 
             await builder.Build().RunAsync();
         }

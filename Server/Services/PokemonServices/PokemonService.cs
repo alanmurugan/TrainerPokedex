@@ -29,7 +29,31 @@ namespace TrainerPokedex.Server.Services.PokemonServices
                 Generation = model.Generation,
                 DexEntry = model.DexEntry
             };
-            _context.Pokemon.Add(pokemonEntity);
+           foreach(var moveId in model.MoveIds)
+           {
+               var moveEntity = await _context
+                   .Moves
+                   .Include(p => p.TeachablePokemon)
+                   .FirstOrDefaultAsync(m => m.Id == moveId);
+               pokemonEntity.Moves.Add(moveEntity);
+           }
+           foreach(var typeId in model.TypeIds) 
+           {
+               var typeEntity = await _context
+                   .Types
+                   .Include(p => p.Pokemon)
+                   .FirstOrDefaultAsync(t => t.Id == typeId);
+               pokemonEntity.Types.Add(typeEntity);
+           }
+           foreach(var regionId in model.RegionIds)
+           {
+               var regionEntity = await _context
+                   .Regions
+                   .Include(p => p.LocalPokemon)
+                   .FirstOrDefaultAsync(r => r.Id == regionId);
+               pokemonEntity.RegionsFound.Add(regionEntity);
+           }
+           _context.Pokemon.Add(pokemonEntity);
             return await _context.SaveChangesAsync() == 1;
         }
 

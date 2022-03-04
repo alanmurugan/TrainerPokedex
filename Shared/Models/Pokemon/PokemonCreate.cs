@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace TrainerPokedex.Shared.Models.Pokemon
@@ -10,6 +11,10 @@ namespace TrainerPokedex.Shared.Models.Pokemon
         [Required] public int Generation { get; set; }
         [Required] public string DexEntry { get; set; }
         
-        
+        public List<int> TypeIds { get; set; }
+        public List<int> MoveIds { get; set; }
+        public List<int> RegionIds { get; set; }
+
+
     }
 }

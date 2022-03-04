@@ -15,10 +15,10 @@ namespace TrainerPokedex.Server.Models
         [Required] public string DexEntry { get; set; }
         
         //How to handle dual typing
-        public ICollection<TypeX> Types { get; set; }
+        public ICollection<TypeX> Types { get; set; } = new List<TypeX>();
 
         //Many to Many (Many pokemon in many regions, many pokemon have many moves)
-        public ICollection<Region> RegionsFound { get; set; }
-        public ICollection<Move> Moves { get; set; }
+        public ICollection<Region> RegionsFound { get; set; } = new List<Region>();
+        public ICollection<Move> Moves { get; set; } = new List<Move>();
     }
 }

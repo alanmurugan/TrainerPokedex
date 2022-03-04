@@ -1,7 +1,6 @@
 @page "/move/create"
 @using TrainerPokedex.Shared.Models.Move
 @using Microsoft.AspNetCore.Authorization
-@using System.Collections
 @using TrainerPokedex.Shared.Models.Type
 @attribute [Authorize]
 @inject HttpClient _http
@@ -30,6 +29,7 @@
             <InputTextArea class="form-control" @bind-Value="@_model.Description"></InputTextArea>
         </div>
         <InputSelect class="form-control" @bind-Value="_model.TypeId">
+            <option value="0">Select Type</option>
             @foreach (var type in _types)
             {
                 <option value="@type.Id">@type.Name</option>
@@ -42,7 +42,7 @@
 
 @code {
     private MoveCreate _model = new();
-    private IEnumerable<TypeListItem> _types;
+    private IEnumerable<TypeListItem> _types = new List<TypeListItem>();
     private string errorMessage;
 
     protected override async Task OnInitializedAsync()
