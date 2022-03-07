@@ -1,33 +1,40 @@
-@page "/region/{RegionId:int}"
+@page "/region/delete/{RegionId:int}"
 @using TrainerPokedex.Shared.Models.Region
 @using TrainerPokedex.Shared.Models.Pokemon
 @using Microsoft.AspNetCore.Authorization
 @attribute [Authorize]
 @inject HttpClient _http
+@inject NavigationManager _navigation
+@if (_message != null)
+{
+    <h2 class="text-danger">@_message</h2>
+}
 @if (Region != null)
 {
-    <h3>@Region.Name Region Details</h3>
+    <h3>Delete @Region.Name</h3>
     <div class="container">
         <div class="card">
             <div class="card-header d-flex justify-content-between">
                 <span>@Region.Name</span>
-                <span class="text-muted"><strong>Introduced in Generation @Region.GenIntroduced</strong></span>
+                <span class="text-muted">
+                    <strong>Introduced in Generation @Region.GenIntroduced</strong>
+                </span>
             </div>
             <div class="card-body">
                 <h4 class="card-title">Local Pokemon</h4>
                 <p class="card-text">
                     @foreach (var pokemon in Region.LocalPokemon)
                     {
-                        <a href=@($"pokemon/{pokemon.Id}")>@pokemon.Name</a> <br />
+                        @pokemon.Name<br/>
                     }
                 </p>
             </div>
         </div>
         <div class="d-flex justify-content-center mt-3">
             <div class="text-center justify-content-between w-25">
-                <a href=@($"/region/edit/{RegionId}") class="btn btn-outline-primary">Edit</a>
-                <a href=@($"/region/delete/{RegionId}") class="btn btn-outline-danger">Delete</a>
-                <hr />
+                <a href=@($"/region") class="btn btn-outline-primary">Back to Region Index</a>
+                <a href=@($"/region/delete/{RegionId}") @onclick="HandleClick" class="btn btn-outline-danger">Delete</a>
+                <hr/>
                 <a href="/region">Back to Region Index</a>
             </div>
         </div>
@@ -35,18 +42,36 @@
 }
 else
 {
-    <p><em>Loading...</em></p>
+    <p>
+        <em>Loading...</em>
+    </p>
 }
 
 @code {
 
     [Parameter]
     public int RegionId { get; set; } = new();
-    private RegionDetail Region { get; set; } 
+
+    public string _message { get; set; }
+
+    private RegionDetail Region { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         Region = await _http.GetFromJsonAsync<RegionDetail>($"/api/region/{RegionId}");
+    }
+
+    private async void HandleClick()
+    {
+        var deleteRes = await _http.DeleteAsync($"/api/region/delete/{RegionId}");
+        if (deleteRes.IsSuccessStatusCode)
+        {
+            _navigation.NavigateTo("/region");
+        }
+        else
+        {
+            _message = "Failed to delete region";
+        }
     }
 
 }

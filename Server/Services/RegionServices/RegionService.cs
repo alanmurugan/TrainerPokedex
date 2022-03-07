@@ -55,6 +55,7 @@ namespace TrainerPokedex.Server.Services.RegionServices
                     LocalPokemon = regionEntity.LocalPokemon
                         .Select(p => new PokemonListItem
                         {
+                            Id = p.Id,
                             Name = p.Name
                         }).ToList()
                 };

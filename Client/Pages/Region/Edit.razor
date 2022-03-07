@@ -40,7 +40,7 @@
 
     private async void HandleSubmit()
     {
-        var createRes = await _http.PutAsJsonAsync<RegionEdit>($"/api/region/{RegionId}", _model);
+        var createRes = await _http.PutAsJsonAsync<RegionEdit>($"/api/region/edit/{RegionId}", _model);
         if (createRes.IsSuccessStatusCode) _navigation.NavigateTo($"region/{RegionId}");
         else errorMessage = "Could not edit region. Try again later.";
     }
