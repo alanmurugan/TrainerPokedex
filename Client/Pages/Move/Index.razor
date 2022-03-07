@@ -7,7 +7,9 @@
 <a href="/move/create">Create a new move</a>
 @if (_moves == null)
 {
-    <p><em>Loading...</em></p>
+    <p>
+        <em>Loading...</em>
+    </p>
 }
 else
 {
@@ -17,6 +19,7 @@ else
             <th>Id</th>
             <th>Name</th>
             <th>Type</th>
+            <th>&nbsp;</th>
         </tr>
         </thead>
         <tbody>
@@ -26,6 +29,11 @@ else
                 <td>@move.Id</td>
                 <td>@move.Name</td>
                 <td>@move.Type</td>
+                <td>
+                    <a href=@($"move/{move.Id}")>Details</a> |
+                    <a href=@($"move/edit/{move.Id}")>Edit</a> |
+                    <a href=@($"move/delete/{move.Id}")>Delete</a>
+                </td>
             </tr>
         }
         </tbody>
@@ -39,4 +47,5 @@ else
     {
         _moves = await _http.GetFromJsonAsync<List<MoveListItem>>("api/move");
     }
+
 }

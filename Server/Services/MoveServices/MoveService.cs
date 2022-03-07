@@ -46,7 +46,7 @@ namespace TrainerPokedex.Server.Services.MoveServices
         {
             var moveEntity = await _context
                 .Moves
-                .Include(nameof(TypeX))
+                .Include(t => t.Type)
                 .Include(p => p.TeachablePokemon)
                 .FirstOrDefaultAsync(m => m.Id == moveId);
             return moveEntity is null

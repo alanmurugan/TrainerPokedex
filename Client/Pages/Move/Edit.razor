@@ -1,0 +1,62 @@
+@page "/move/edit/{MoveID:int}"
+@using TrainerPokedex.Shared.Models.Move
+@using Microsoft.AspNetCore.Authorization
+@using TrainerPokedex.Shared.Models.Type
+@attribute [Authorize]
+@inject HttpClient _http
+@inject NavigationManager _navigation
+
+<h3>Edit @_model.Name</h3>
+@if (errorMessage != null)
+{
+    <h5 class="text-danger">@errorMessage</h5>
+}
+
+<div class="container">
+    <EditForm Model="@_model" OnValidSubmit="@HandleSubmit">
+        <DataAnnotationsValidator/>
+        <ValidationSummary/>
+        <div class="form-group">
+            <label>Name</label>
+            <InputText class="form-control" @bind-Value="_model.Name"/>
+        </div>
+        <div class="form-group">
+            <label>Base Strength</label>
+            <InputNumber class="form-control" @bind-Value="_model.BaseStrength"/>
+        </div>
+        <div class="form-group">
+            <label>Description</label>
+            <InputTextArea class="form-control" @bind-Value="@_model.Description"></InputTextArea>
+        </div>
+        <InputSelect class="form-control" @bind-Value="_model.TypeId">
+            <option value="0">Select Type</option>
+            @foreach (var type in _types)
+            {
+                <option value="@type.Id">@type.Name</option>
+            }
+        </InputSelect>
+        <button type="submit" class="btn btn-primary btn-block mt-5">Submit</button>
+    </EditForm>
+</div>
+
+
+@code {
+    [Parameter] public int MoveId { get; set; }
+    private MoveEdit _model { get; set; } = new MoveEdit();
+    private IEnumerable<TypeListItem> _types = new List<TypeListItem>();
+    private string errorMessage;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _model = await _http.GetFromJsonAsync<MoveEdit>($"api/move/{MoveId}");
+        _types = await _http.GetFromJsonAsync<IEnumerable<TypeListItem>>("/api/type");
+    }
+
+    private async void HandleSubmit()
+    {
+        var createRes = await _http.PutAsJsonAsync<MoveEdit>($"/api/move/edit/{MoveId}", _model);
+        if (createRes.IsSuccessStatusCode) _navigation.NavigateTo($"/move/{MoveId}");
+        else errorMessage = "Could not edit move. Try again later.";
+    }
+
+}
