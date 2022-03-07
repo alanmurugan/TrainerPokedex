@@ -7,7 +7,9 @@
 <a href="/type/create">Create a new type</a>
 @if (_types == null)
 {
-    <p><em>Loading...</em></p>
+    <p>
+        <em>Loading...</em>
+    </p>
 }
 else
 {
@@ -16,6 +18,7 @@ else
         <tr>
             <th>Id</th>
             <th>Name</th>
+            <th>&nbsp;</th>
         </tr>
         </thead>
         <tbody>
@@ -24,6 +27,11 @@ else
             <tr>
                 <td>@type.Id</td>
                 <td>@type.Name</td>
+                <td>
+                    <a href=@($"type/{type.Id}")>Details</a> |
+                    <a href=@($"type/edit/{type.Id}")>Edit</a> |
+                    <a href=@($"type/delete/{type.Id}")>Delete</a>
+                </td>
             </tr>
         }
         </tbody>
@@ -37,4 +45,5 @@ else
     {
         _types = await _http.GetFromJsonAsync<List<TypeListItem>>("api/type");
     }
+
 }

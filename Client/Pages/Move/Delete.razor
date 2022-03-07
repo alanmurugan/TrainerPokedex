@@ -37,7 +37,7 @@
         <div class="d-flex justify-content-center mt-3">
             <div class="text-center justify-content-between w-25">
                 <a href=@($"/move") class="btn btn-outline-primary">Back to Index</a>
-                <a href=@($"/Move/delete/{MoveId}") class="btn btn-outline-danger">Delete</a>
+                <a href=@($"/move/delete/{MoveId}") @onclick="HandleClick" class="btn btn-outline-danger">Delete</a>
             </div>
         </div>
     </div>
@@ -62,14 +62,15 @@ else
     
     private async void HandleClick()
     {
-        var deleteRes = await _http.DeleteAsync($"/api/region/delete/{MoveId}");
+        var deleteRes = await _http.DeleteAsync($"/api/move/delete/{MoveId}");
         if (deleteRes.IsSuccessStatusCode)
         {
-            _navigation.NavigateTo("/region");
+            _navigation.NavigateTo("/move");
         }
         else
         {
-            _message = "Failed to delete region";
+            _message = "Failed to delete move";
         }
     }
+    
 }

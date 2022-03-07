@@ -1,0 +1,41 @@
+@page "/type/edit/{TypeId:int}"
+@using TrainerPokedex.Shared.Models.Type
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
+@inject HttpClient _http
+@inject NavigationManager _navigation
+
+<h3>Edit @_model.Name</h3>
+@if (errorMessage != null)
+{
+    <h5 class="text-danger">@errorMessage</h5>
+}
+<div class="container">
+    <EditForm Model="@_model" OnValidSubmit="@HandleSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <div class="form-group">
+            <label>Name</label>
+            <InputText class="form-control" @bind-Value="_model.Name" />
+        </div>
+        <button type="submit" class="btn btn-primary btn-block mt-5">Submit</button>
+    </EditForm>
+</div>
+
+@code {
+    [Parameter] public int TypeId { get; set; }
+    private TypeEdit _model { get; set; } = new TypeEdit();
+    private string errorMessage;
+    
+    protected override async Task OnInitializedAsync()
+    {
+        _model = await _http.GetFromJsonAsync<TypeEdit>($"/api/type/{TypeId}");
+    }
+
+    private async void HandleSubmit()
+    {
+        var createRes = await _http.PutAsJsonAsync<TypeEdit>($"/api/type/edit/{TypeId}", _model);
+        if (createRes.IsSuccessStatusCode) _navigation.NavigateTo($"/type/{TypeId}");
+        else errorMessage = "Could not edit type. Try again later.";
+    }
+}

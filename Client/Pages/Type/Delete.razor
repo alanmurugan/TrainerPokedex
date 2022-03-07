@@ -1,0 +1,82 @@
+@page "/type/delete/{TypeId:int}"
+@using TrainerPokedex.Shared.Models.Type
+@using TrainerPokedex.Shared.Models.Pokemon
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
+@inject HttpClient _http
+@inject NavigationManager _navigation
+@if (_message != null)
+{
+    <h2 class="text-danger">@_message</h2>
+}
+@if (Type != null)
+{
+    <h3>@Type.Name Type Details</h3>
+    <div class="container">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between">
+                <span>@Type.Name</span>
+            </div>
+            <div class="card-body">
+                <h4 class="card-title">Pokemon</h4>
+                <p class="card-text">
+                    @foreach (var pokemon in Type.Pokemon)
+                    {
+                        <a href=@($"pokemon/{pokemon.Id}")>@pokemon.Name</a>
+                        <br/>
+                    }
+                </p>
+            </div>
+            <div class="card-body">
+                <h4 class="card-title">Moves</h4>
+                <p class="card-text">
+                    @foreach (var move in Type.Moves)
+                    {
+                        <a href=@($"move/{move.Id}")>@move.Name</a>
+                        <br/>
+                    }
+                </p>
+            </div>
+        </div>
+        <div class="d-flex justify-content-center mt-3">
+            <div class="text-center justify-content-between w-25">
+                <a href=@($"/type/") class="btn btn-outline-primary">Back to Index</a>
+                <a href=@($"/Type/delete/{TypeId}") @onclick="HandleClick" class="btn btn-outline-danger">Delete</a>
+                <hr/>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <p>
+        <em>Loading...</em>
+    </p>
+}
+
+@code {
+
+    [Parameter]
+    public int TypeId { get; set; } = new();
+    public string _message { get; set; }
+    private TypeDetail Type { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Type = await _http.GetFromJsonAsync<TypeDetail>($"/api/Type/{TypeId}");
+    }
+    
+    private async void HandleClick()
+    {
+        var deleteRes = await _http.DeleteAsync($"/api/type/delete/{TypeId}");
+        if (deleteRes.IsSuccessStatusCode)
+        {
+            _navigation.NavigateTo("/type");
+        }
+        else
+        {
+            _message = "Failed to delete type";
+        }
+    }
+
+}
