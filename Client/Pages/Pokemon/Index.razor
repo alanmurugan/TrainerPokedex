@@ -8,27 +8,33 @@
 <a href="/pokemon/create">Create a Pokemon</a>
 @if (_pokemon == null)
 {
-    <p><em>Loading...</em></p>
+    <p>
+        <em>Loading...</em>
+    </p>
 }
 else
 {
     <table class="table">
         <thead>
-            <tr>
-                <th>Pokedex Entry#</th>
-                <th>Name</th>
-                <th>&nbsp;</th>
-            </tr>
+        <tr>
+            <th>Pokedex Entry#</th>
+            <th>Name</th>
+            <th>&nbsp;</th>
+        </tr>
         </thead>
         <tbody>
-            @foreach (var pokemon in _pokemon)
-            {
-                <tr>
-                    <td>@pokemon.DexNumber</td>
-                    <td>@pokemon.Name</td>
-                    <td>@*Links go here*@</td>
-                </tr>
-            }
+        @foreach (var pokemon in _pokemon)
+        {
+            <tr>
+                <td>@pokemon.DexNumber</td>
+                <td>@pokemon.Name</td>
+                <td>
+                    <a href=@($"pokemon/{pokemon.Id}")>Details</a> |
+                    <a href=@($"pokemon/edit/{pokemon.Id}")>Edit</a> |
+                    <a href=@($"pokemon/delete/{pokemon.Id}")>Delete</a>
+                </td>
+            </tr>
+        }
         </tbody>
     </table>
 }
@@ -40,4 +46,5 @@ else
     {
         _pokemon = await _http.GetFromJsonAsync<List<PokemonListItem>>("/api/pokemon");
     }
+
 }

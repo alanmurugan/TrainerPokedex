@@ -83,6 +83,7 @@ namespace TrainerPokedex.Server.Services.PokemonServices
                 Id = pokemonEntity.Id,
                 DexEntry = pokemonEntity.DexEntry,
                 DexNumber = pokemonEntity.DexNumber,
+                Name = pokemonEntity.Name,
                 Generation = pokemonEntity.Generation,
                 ImgUrl = pokemonEntity.ImgUrl,
                 Types = pokemonEntity.Types
