@@ -14,6 +14,8 @@
 {
     <h5 class="text-danger">@_errorMessage</h5>
 }
+@if (_model != null)
+{
 <div class="container">
     <EditForm Model="@_model" OnValidSubmit="@HandleSubmit">
         <DataAnnotationsValidator/>
@@ -62,7 +64,7 @@
         <button type="submit" class="btn btn-primary btn-block mt-5">Submit</button>
     </EditForm>
 </div>
-
+}
 @code {
     [Parameter]public int PokemonId { get; set; }
     private PokemonEdit _model { get; set; }
@@ -82,8 +84,7 @@
     private async void HandleSubmit()
     {
         var createRes = await _http.PutAsJsonAsync<PokemonEdit>($"/api/pokemon/edit/{PokemonId}", _model);
-        if (createRes.IsSuccessStatusCode)
-            _navigation.NavigateTo($"/pokemon/{PokemonId}");
+        if (createRes.IsSuccessStatusCode) _navigation.NavigateTo($"/pokemon/{PokemonId}");
         else _errorMessage = "Could not edit Pokemon. Try again later.";
     }
 

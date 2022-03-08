@@ -54,7 +54,7 @@ namespace TrainerPokedex.Server.Services.PokemonServices
                pokemonEntity.RegionsFound.Add(regionEntity);
            }
            _context.Pokemon.Add(pokemonEntity);
-            return await _context.SaveChangesAsync() == 1;
+            return await _context.SaveChangesAsync() >= 1;
         }
 
         public async Task<IEnumerable<PokemonListItem>> GetAllPokemonAsync()
@@ -115,14 +115,14 @@ namespace TrainerPokedex.Server.Services.PokemonServices
             entity.ImgUrl = (model.ImgUrl ?? entity.ImgUrl);
             entity.Generation = (model.Generation ?? entity.Generation);
             entity.DexEntry = (model.DexEntry ?? entity.DexEntry);
-            return await _context.SaveChangesAsync() == 1;
+            return await _context.SaveChangesAsync() >= 1;
         }
 
         public async Task<bool> DeletePokemonAsync(int pokemonId)
         {
             var entity = await _context.Pokemon.FindAsync(pokemonId);
             _context.Pokemon.Remove(entity);
-            return await _context.SaveChangesAsync() == 1;
+            return await _context.SaveChangesAsync() >= 1;
         }
 
         public async Task<bool> AddPokemonToRegionAsync(int pokemonId, PokemonRegion request)

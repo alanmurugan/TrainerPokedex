@@ -80,8 +80,7 @@
     private async void HandleSubmit()
     {
         var createRes = await _http.PostAsJsonAsync<PokemonCreate>("/api/pokemon", _model);
-        if (createRes.IsSuccessStatusCode)
-            _navigation.NavigateTo("/pokemon");
+        if (createRes.IsSuccessStatusCode) _navigation.NavigateTo("/pokemon");
         else _errorMessage = "Could not create Pokemon. Try again later.";
     }
 
