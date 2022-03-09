@@ -30,9 +30,9 @@ else
                 <td>@move.Name</td>
                 <td>@move.Type</td>
                 <td>
-                    <a href=@($"move/{move.Id}")>Details</a> |
-                    <a href=@($"move/edit/{move.Id}")>Edit</a> |
-                    <a href=@($"move/delete/{move.Id}")>Delete</a>
+                    <a href=@($"move/{move.Id}") class="btn btn-info"><span class="oi oi-menu"></span>  Details</a> |
+                    <a href=@($"move/edit/{move.Id}") class="btn btn-info"><span class="oi oi-pencil"></span>  Edit</a> |
+                    <a href=@($"move/delete/{move.Id}") class="btn btn-info"><span class="oi oi-trash"></span>  Delete</a>
                 </td>
             </tr>
         }

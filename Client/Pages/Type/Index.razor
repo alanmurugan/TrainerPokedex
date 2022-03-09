@@ -28,9 +28,9 @@ else
                 <td>@type.Id</td>
                 <td>@type.Name</td>
                 <td>
-                    <a href=@($"type/{type.Id}")>Details</a> |
-                    <a href=@($"type/edit/{type.Id}")>Edit</a> |
-                    <a href=@($"type/delete/{type.Id}")>Delete</a>
+                    <a href=@($"type/{type.Id}") class="btn btn-info"><span class="oi oi-menu"></span>  Details</a> |
+                    <a href=@($"type/edit/{type.Id}") class="btn btn-info"><span class="oi oi-pencil"></span>  Edit</a> |
+                    <a href=@($"type/delete/{type.Id}") class="btn btn-info"><span class="oi oi-trash"></span>  Delete</a>
                 </td>
             </tr>
         }

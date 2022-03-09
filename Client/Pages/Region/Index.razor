@@ -26,9 +26,9 @@ else
                 <td>@region.Id</td>
                 <td>@region.Name</td>
                 <td>
-                    <a href=@($"region/{region.Id}")>Details</a> | 
-                    <a href=@($"region/edit/{region.Id}")>Edit</a> |
-                    <a href=@($"region/delete/{region.Id}")>Delete</a>
+                    <a href=@($"region/{region.Id}") class="btn btn-info"><span class="oi oi-menu"></span>  Details</a> | 
+                    <a href=@($"region/edit/{region.Id}") class="btn btn-info"><span class="oi oi-pencil"></span>  Edit</a> |
+                    <a href=@($"region/delete/{region.Id}") class="btn btn-info"><span class="oi oi-trash"></span>  Delete</a>
                 </td>
             </tr>
         }

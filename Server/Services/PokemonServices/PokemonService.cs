@@ -89,16 +89,19 @@ namespace TrainerPokedex.Server.Services.PokemonServices
                 Types = pokemonEntity.Types
                     .Select(t => new TypeListItem
                     {
+                        Id = t.Id,
                         Name = t.Name
                     }).ToList(),
                 Moves = pokemonEntity.Moves
                     .Select(m => new MoveListItem
                     {
+                        Id = m.Id,
                         Name = m.Name
                     }).ToList(),
                 RegionsFound = pokemonEntity.RegionsFound
                     .Select(r => new RegionListItem
                     {
+                        Id = r.Id,
                         Name = r.Name
                     }).ToList()
             };

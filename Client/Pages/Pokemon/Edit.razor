@@ -50,7 +50,7 @@
         @*Move selection, text entry with auto fill, asks to make move first if not found.*@
         <div class="form-group">
             <label>Learnable moves</label>
-            <SfMultiSelect @bind-Value="@_model.MoveIds" AllowFiltering="true" Placeholder="Select moves" Mode="VisualMode.CheckBox" ShowDropDownIcon="true" DataSource="@_moves">
+            <SfMultiSelect @bind-Value="@_model.MoveIds" AllowFiltering="true"  Placeholder="Select moves" Mode="VisualMode.CheckBox" ShowDropDownIcon="true" DataSource="@_moves">
             <MultiSelectFieldSettings Text="Name" Value="Id"></MultiSelectFieldSettings>
         </SfMultiSelect>
         </div>

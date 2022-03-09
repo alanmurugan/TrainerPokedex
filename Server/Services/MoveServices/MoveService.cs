@@ -62,6 +62,7 @@ namespace TrainerPokedex.Server.Services.MoveServices
                     TeachablePokemon = moveEntity.TeachablePokemon
                         .Select(p => new PokemonListItem
                         {
+                            Id = p.Id,
                             Name = p.Name
                         }).ToList()
                 };

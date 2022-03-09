@@ -57,12 +57,14 @@ namespace TrainerPokedex.Server.Services.TypeServices
                         .Moves
                         .Select(m => new MoveListItem
                         {
+                            Id = m.Id,
                             Name = m.Name
                         }).ToList(),
                     Pokemon = typeEntity
                         .Pokemon
                         .Select(p => new PokemonListItem
                         {
+                            Id = p.Id,
                             Name = p.Name
                         }).ToList()
                 };

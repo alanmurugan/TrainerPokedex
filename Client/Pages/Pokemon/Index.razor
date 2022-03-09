@@ -17,7 +17,7 @@ else
     <table class="table">
         <thead>
         <tr>
-            <th>Pokedex Entry#</th>
+            <th>Id</th>
             <th>Name</th>
             <th>&nbsp;</th>
         </tr>
@@ -26,12 +26,12 @@ else
         @foreach (var pokemon in _pokemon)
         {
             <tr>
-                <td>@pokemon.DexNumber</td>
+                <td>@pokemon.Id</td>
                 <td>@pokemon.Name</td>
                 <td>
-                    <a href=@($"pokemon/{pokemon.Id}")>Details</a> |
-                    <a href=@($"pokemon/edit/{pokemon.Id}")>Edit</a> |
-                    <a href=@($"pokemon/delete/{pokemon.Id}")>Delete</a>
+                    <a href=@($"pokemon/{pokemon.Id}") class="btn btn-info"><span class="oi oi-menu"></span>  Details</a> |
+                    <a href=@($"pokemon/edit/{pokemon.Id}") class="btn btn-info"><span class="oi oi-pencil"></span>  Edit</a> |
+                    <a href=@($"pokemon/delete/{pokemon.Id}") class="btn btn-info"><span class="oi oi-trash"></span>  Delete</a>
                 </td>
             </tr>
         }
