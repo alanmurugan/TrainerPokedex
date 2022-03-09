@@ -91,19 +91,19 @@ namespace TrainerPokedex.Server.Services.PokemonServices
                     {
                         Id = t.Id,
                         Name = t.Name
-                    }).ToList(),
+                    }).Distinct().ToList(),
                 Moves = pokemonEntity.Moves
                     .Select(m => new MoveListItem
                     {
                         Id = m.Id,
                         Name = m.Name
-                    }).ToList(),
+                    }).Distinct().ToList(),
                 RegionsFound = pokemonEntity.RegionsFound
                     .Select(r => new RegionListItem
                     {
                         Id = r.Id,
                         Name = r.Name
-                    }).ToList()
+                    }).Distinct().ToList()
             };
             return detail;
         }
@@ -112,12 +112,47 @@ namespace TrainerPokedex.Server.Services.PokemonServices
         {
             if (model == null) return false;
             var entity = await _context.Pokemon.FindAsync(model.Id);
+            List<Move> moves = new List<Move>();
+            List<TypeX> types = new List<TypeX>();
+            List<Region> regions = new List<Region>();
+            
 
             entity.Name = (model.Name ?? entity.Name);
             entity.DexNumber = (model.DexNumber ?? entity.DexNumber);
             entity.ImgUrl = (model.ImgUrl ?? entity.ImgUrl);
             entity.Generation = (model.Generation ?? entity.Generation);
             entity.DexEntry = (model.DexEntry ?? entity.DexEntry);
+            foreach(var moveId in model.MoveIds)
+            {
+                var moveEntity = await _context
+                    .Moves
+                    .Include(p => p.TeachablePokemon)
+                    .FirstOrDefaultAsync(m => m.Id == moveId);
+                moves.Add(moveEntity);
+            }
+            entity.Moves = moves.Distinct().ToList();
+            
+            foreach(var typeId in model.TypeIds) 
+            {
+                var typeEntity = await _context
+                    .Types
+                    .Include(p => p.Pokemon)
+                    .FirstOrDefaultAsync(t => t.Id == typeId);
+                types.Add(typeEntity);
+            }
+            if (types.Count <= 2 && (types.Count + entity.Types.Count) <=2)
+                entity.Types = types.Distinct().ToList();
+            
+            foreach(var regionId in model.RegionIds)
+            {
+                var regionEntity = await _context
+                    .Regions
+                    .Include(p => p.LocalPokemon)
+                    .FirstOrDefaultAsync(r => r.Id == regionId);
+                regions.Add(regionEntity);
+            }
+            entity.RegionsFound = regions.Distinct().ToList();
+            
             return await _context.SaveChangesAsync() >= 1;
         }
 
